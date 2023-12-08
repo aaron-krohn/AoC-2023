@@ -30,9 +30,14 @@ https://adventofcode.com
 
 ## Scores
 
+On problem 5.2, I wrote really bad code and never got around to making it fast. I'm not even sure how to make it fast, so it took about 11.5 hours to brute force. Shame.
+
+For problem 8.2, I looked on reddit for a hint. The hint made the solution pretty blatantly obvious, and it's one I doubt I would have ever thought of on my own. I'd still be brute forcing it, probably for days. I feel like I cheated.
+
 ```
       --------Part 1---------   --------Part 2---------
 Day       Time    Rank  Score       Time    Rank  Score
+  8   00:19:49    5725      0   01:25:03    6710      0
   7   01:30:09    9640      0   02:16:55    9312      0
   6   00:20:59    7028      0   00:26:06    6255      0
   5   01:56:58   12980      0   15:26:51   30073      0
