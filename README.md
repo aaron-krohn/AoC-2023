@@ -34,9 +34,12 @@ On problem 5.2, I wrote really bad code and never got around to making it fast. 
 
 For problem 8.2, I looked on reddit for a hint. The hint made the solution pretty blatantly obvious, and it's one I doubt I would have ever thought of on my own. I'd still be brute forcing it, probably for days. I feel like I cheated.
 
+Day 9, I decided to sleep like a person instead of staying up late.
+
 ```
       --------Part 1---------   --------Part 2---------
 Day       Time    Rank  Score       Time    Rank  Score
+  9   12:31:50   39119      0   19:34:08   46162      0
   8   00:19:49    5725      0   01:25:03    6710      0
   7   01:30:09    9640      0   02:16:55    9312      0
   6   00:20:59    7028      0   00:26:06    6255      0
