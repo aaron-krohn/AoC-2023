@@ -41,6 +41,9 @@ class PipeMap:
 
 
     def get_neighbors(self, ridx, cidx):
+        """Determine the pair of neighboring coordinates for a
+           given tile in the pipe route
+        """
 
         lookup = {
                 '|': ((ridx-1, cidx), (ridx+1, cidx)),
@@ -51,6 +54,7 @@ class PipeMap:
                 'L': ((ridx-1, cidx), (ridx, cidx+1))
                 }
 
+        # Because, why not
         if (ridx, cidx) == self.start:
             neigh = []
             if self.map[ridx-1][cidx] in ['|', 'F', '7']:
@@ -70,12 +74,16 @@ class PipeMap:
 
 
     def s_tile(self):
+        """If 'S' were a tile, which tile would it be? -__-
+           Use neighboring tiles to infer. Even this is needlessly difficult.
+        """
 
         neighs = self.get_neighbors(*self.start)
         logging.debug('NEIGHS: %s', neighs)
 
         above, below, left, right = False, False, False, False
 
+        # Determine whether each of the neighbor coords is above/below/left or right
         for coords in neighs:
 
             ridx, cidx = coords
@@ -94,6 +102,7 @@ class PipeMap:
 
         logging.debug('ABOVE / BELOW / LEFT / RIGHT: %s / %s / %s / %s', above, below, left, right)
 
+        # Use relative neighbor locations to determine tile type
         if above and below:
             return '|'
         if above and right:
@@ -109,6 +118,8 @@ class PipeMap:
 
 
     def trace_route(self):
+        """Starting at tile 'S', follow the path until we reach 'S' again
+        """
 
         if not self.start:
             self.find_start()
@@ -116,6 +127,8 @@ class PipeMap:
         if self.route:
             self.route = []
 
+        # Remember where we just were so we don't go backwards and infinite loop
+        # ourself. That totally didn't happen, I swear.
         backward = self.start
         neigh = self.get_neighbors(*self.pos)
         self.route.append(neigh[0])
@@ -126,14 +139,18 @@ class PipeMap:
 
             neigh = self.get_neighbors(*self.pos)
             logging.debug('NEIGH: %s / ROUTE: %s', neigh, self.route[-1])
+
+            # Don't use the neighbor we were just at
             if neigh[0] == backward:
                 n = 1
             else:
                 n = 0
             logging.debug('N: %s', n)
+
             self.route.append(neigh[n])
             backward = self.pos
             self.move(*neigh[n])
+
             logging.debug('POS: %s', self.pos)
 
 
@@ -143,6 +160,8 @@ class PipeMap:
 
 
     def furthest_step(self):
+        """Solution to part 1: find the distance of the furthest tile in the route
+        """
 
         if not self.route:
             self.trace_route()
@@ -151,6 +170,23 @@ class PipeMap:
 
 
     def outer_fill(self, ridx=0, cidx=0):
+        """This was almost, so close to working. The dilemma I eventually ran into was this:
+           The rules said that travel between adjacent pipes was legal so long as no boundary
+           is crossed. Meaning, you can have a completely enclosed tile that is still outside
+           the loop, technically.
+
+           While this makes sense, it really complicates things for the flood fill method
+           attempted here. After reading some reddit comments, it looks like some folks simply
+           doubled the size of the map. I wasn't that smart.
+
+           To solve the squeeze problem, I attempted to treat the pipe as also "outside" even
+           though it was a boundary. This was great right up to the edge case where, for
+           example, an 'L' tile, when approached from above-right, is a boundary to the area
+           below-left. But if you approach from below-left, it is a boundary to above-right.
+
+           Obviously, the same time can't simultaneously be a boundary for multiple coordinates.
+           So I gave up and went back to counting boundary crossings.
+        """
 
         if not self.route:
             self.trace_route()
@@ -169,8 +205,6 @@ class PipeMap:
             logging.debug('COORDS: %s [%s]', coords, tile)
 
             # What the fuck
-
-            # - | 7 J F L
 
             # Above
             if not (coords[0] - 1 < 0 or (coords in self.route and tile in ['-','7','F'])):
@@ -231,6 +265,19 @@ class PipeMap:
 
 
     def is_enclosed(self, ridx, cidx):
+        '''How many boundaries does a laser beam from the left cross before getting
+           to the target tile?
+
+           A 'U'-shaped boundary isn't a boundary because you never cross into the
+           inner part of the loop: LJ or F7
+
+           But you do when it's a chicane shape: L7 or FJ. And obviously | counts, too.
+
+           Except when the tile isn't part of the pipe route, then it's just a piece
+           of the ground and we ignore it.
+
+           If we cross an odd-number of boundaries, we're inside the loop.
+        '''
 
         logging.debug('RIDX,CIDX: %s,%s', ridx, cidx)
 
@@ -241,6 +288,8 @@ class PipeMap:
         bounds = 0
         f_open, l_open = False, False
         for cix, tile in enumerate(self.map[ridx]):
+
+            # I'm sure there's a better way, but I'm so over this.
 
             if cix == cidx:
                 logging.debug('CIX (%s) == CIDX (%s)', cix, cidx)
@@ -292,6 +341,8 @@ class PipeMap:
 
 
     def count_enclosed(self):
+        '''Iterate all tiles and see if they're enclosed
+        '''
 
         if not self.route:
             self.trace_route()
