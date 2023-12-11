@@ -36,7 +36,7 @@ For problem 8.2, I looked on reddit for a hint. The hint made the solution prett
 
 Day 9, I decided to sleep like a person instead of staying up late.
 
-Day 10.2 can eat a bag of dicks. I tried implementing flood fill, but went back to a boundary counting method. Leaving the flood fill code because of how ridiculous it is.
+Day 10.2 was not great. I tried implementing flood fill, but went back to a boundary counting method. Leaving the flood fill code because of how ridiculous it is.
 
 ```
       --------Part 1---------   --------Part 2---------
