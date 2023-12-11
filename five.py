@@ -121,6 +121,7 @@ def parse_args():
     parser.add_argument('-t', '--test', dest='test', action='store_true', default=False, help='Use test input file')
     parser.add_argument('-p1', '--part-1', dest='p1', action='store_true', default=False, help='Only run part 1')
     parser.add_argument('-p2', '--part-2', dest='p2', action='store_true', default=False, help='Only run part 2, overrides -p1')
+    parser.add_argument('-l', '--log', dest='logfile', action='store', help='Filename for writing log file')
 
     parsed = parser.parse_args()
 
@@ -132,12 +133,11 @@ if __name__ == '__main__':
     conf = parse_args()
 
     loglevel = logging.DEBUG if conf.debug else logging.INFO
-    logging.basicConfig(level=loglevel, format='%(asctime)s [%(levelname)s] %(message)s')
+    logging.basicConfig(level=loglevel, format='%(asctime)s [%(levelname)s] %(message)s', filename=conf.logfile)
 
     fn = [Path(__file__).stem, 'input']
     if conf.test:
         fn.insert(1, 'test')
-
     datafile = '.'.join(fn)
 
     with open(datafile, 'r') as f:
