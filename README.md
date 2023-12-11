@@ -41,6 +41,7 @@ Day 10.2 can eat a bag of dicks. I tried implementing flood fill, but went back 
 ```
       --------Part 1---------   --------Part 2---------
 Day       Time    Rank  Score       Time    Rank  Score
+ 11   00:46:13    5844      0   01:56:04    8417      0
  10   02:28:34    8936      0   23:31:28   27543      0
   9   12:31:50   39119      0   19:34:08   46162      0
   8   00:19:49    5725      0   01:25:03    6710      0

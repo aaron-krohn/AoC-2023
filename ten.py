@@ -366,7 +366,7 @@ class PipeMap:
 
 def parse_args():
 
-    parser = argparse.ArgumentParser(description='2023 Advent of Code, Day 6', epilog='https://adventofcode.com')
+    parser = argparse.ArgumentParser(description='2023 Advent of Code, Day 10', epilog='https://adventofcode.com')
     parser.add_argument('-d', '--debug', dest='debug', action='store_true', default=False, help='Show debug output')
     parser.add_argument('-t', '--test', dest='test', action='store_true', default=False, help='Use test input file')
     parser.add_argument('-p1', '--part-1', dest='p1', action='store_true', default=False, help='Only run part 1')
