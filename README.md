@@ -30,7 +30,7 @@ https://adventofcode.com
 
 ## Scores
 
-On problem 5.2, I wrote really bad code and never got around to making it fast. I'm not even sure how to make it fast, so it took about 11.5 hours to brute force. Shame.
+On problem 5.2, I wrote really bad code and never got around to making it fast. I'm not even sure how to make it fast, so it took about 11.5 hours to brute force. Shame. Included `five.log` to show just how bad it was.
 
 For problem 8.2, I looked on reddit for a hint. The hint made the solution pretty blatantly obvious, and it's one I doubt I would have ever thought of on my own. I'd still be brute forcing it, probably for days. I feel like I cheated.
 
