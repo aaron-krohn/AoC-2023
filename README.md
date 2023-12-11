@@ -12,18 +12,22 @@ To enable debug logging output, use `-d` or `--debug` flag. Otherwise, log level
 
 Run only one test by passing the `-p1`/`--part-1` or `-p2`/`--part-2` flags. 
 
-```
-$ python3.11 five.py --help
-usage: five.py [-h] [-d] [-t] [-p1] [-p2]
+Save log to a file with `-l` or `--log` e.g. `--log ten.log`
 
-2023 Advent of Code, Day _
+```
+$ python3.11 ten.py --help
+usage: ten.py [-h] [-d] [-t] [-p1] [-p2] [-l LOGFILE]
+
+2023 Advent of Code, Day 10
 
 options:
-  -h, --help     show this help message and exit
-  -d, --debug    Show debug output
-  -t, --test     Use test input file
-  -p1, --part-1  Only run part 1
-  -p2, --part-2  Only run part 2, overrides -p1
+  -h, --help            show this help message and exit
+  -d, --debug           Show debug output
+  -t, --test            Use test input file
+  -p1, --part-1         Only run part 1
+  -p2, --part-2         Only run part 2, overrides -p1
+  -l LOGFILE, --log LOGFILE
+                        Filename for writing log file
 
 https://adventofcode.com
 ```
