@@ -42,9 +42,13 @@ Day 9, I decided to sleep like a person instead of staying up late.
 
 Day 10.2 was not great. I tried implementing flood fill, but went back to a boundary counting method. Leaving the flood fill code because of how ridiculous it is.
 
+Day 12.2 is... elusive, to say the least.
+
 ```
       --------Part 1---------   --------Part 2---------
 Day       Time    Rank  Score       Time    Rank  Score
+ 13   00:32:20    2384      0   03:52:00    7925      0
+ 12   02:02:22    6957      0          -       -      -
  11   00:46:13    5844      0   01:56:04    8417      0
  10   02:28:34    8936      0   23:31:28   27543      0
   9   12:31:50   39119      0   19:34:08   46162      0
