@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -204,12 +205,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         reflect_sum = lm.note_totals()
-        logging.info('[Part 1] Solution: %s', reflect_sum)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', reflect_sum, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         smudge_sum = lm.smudge_totals()
-        logging.info('[Part 2] Solution: %s', smudge_sum)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', smudge_sum, round(end - start, 4))
 

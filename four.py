@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -130,12 +131,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         card_points = scratchers.sum_points()
-        logging.info('[Part 1] Total Points: %s', card_points)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', card_points, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         total_cards = scratchers.all_card_totals()
-        logging.info('[Part 2] Total Cards: %s', total_cards)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', total_cards, round(end - start, 4))
 

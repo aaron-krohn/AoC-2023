@@ -1,6 +1,8 @@
+import time
 import logging
 import argparse
 
+from functools import lru_cache
 from pathlib import Path
 
 class SpringRecords:
@@ -63,68 +65,93 @@ class SpringRecords:
 
         return True
 
-
-    def calculate_arrangements(self, record, contiguous):
-
-        hashes = ['#'*i for i in contiguous]
-
-        # all hashes must fit in all groups of question marks
-        # each hash string must be separated by one or more '.'
-        # a hash string may overwrite other hashes or question marks, but not dots
-        # hash strings must maintain original order
-        # a hash string longer than a set of question marks cannot fit, assuming '.'s on each side
-
-        segments = self.get_record_segments(record)
-        num_qmarks = 0
-        for char, count in segments:
-            if char == '?':
-                num_qmarks += 1
-
-        # 1. Can first hash str fit in first qm group?
-        #  - Yes: do it, and add a dot if there is room
-        #  - No: first qm group is replaced by dots
-        # 2. Can next hash str fit in current qm group?
-        #  - Yes: do it, and add a dot
+    def str_join(self, int_list):
+        if not int_list:
+            return ''
+        return ','.join([str(i) for i in int_list])
 
 
+    def str_unjoin(self, joined_str):
+        if not joined_str:
+            return []
+        return [int(i) for i in joined_str.split(',')]
+
+
+    #@lru_cache
     def recurse(self, record, contiguous):
 
+        contiguous = self.str_unjoin(contiguous)
+
         total = 0
-        logging.info('RECORD: %s -> %s', record, contiguous)
+        logging.debug('RECORD: %s -> %s', record, contiguous)
+
+        if contiguous:
+            if not record or ('#' not in record and '?' not in record):
+                logging.debug('END')
+                return 0
+
+        if not contiguous:
+            if '#' in record:
+                logging.debug('END')
+                return 0
+            else:
+                logging.debug('TOTAL+1')
+                return 1
 
         segments = self.get_record_segments(record)
         logging.debug('SEGMENTS: %s', segments)
-
-        if not contiguous and '?' not in record and '#' not in record:
-            return 1
 
         char, count = segments[0]
         while segments[0][0] == '.':
             record = record[count:]
             segments.pop(0)
+            if not segments and contiguous:
+                logging.debug('SEG END')
+                return 0
             char, count = segments[0]
 
         if char == '?':
-            logging.debug('Branch 1')
-            if count == 1:
-                logging.debug('Branch 1.1 [REC]')
-                n_record = '#' + record[1:]
-                total += self.recurse(n_record, contiguous)
-            else:
-                logging.debug('Branch 1.2 [REC]')
-                n_record = '#.' + record[2:]
-                total += self.recurse(n_record, contiguous)
+            # I think (?) we want to try all possibilities off '?' * count in recursion
+            logging.debug('Branch 1 [RECx%s]', 2**count)
+            for bin_str in self.possible_combos(count):
+                n_record = bin_str + record[count:]
+                total += self.recurse(n_record, self.str_join(contiguous))
 
         if char == '#':
             logging.debug('Branch 2')
             if count == contiguous[0]:
+                # Item following consumed group must be a '.' or a '?' interpreted as a '.',
+                # otherwise the contiguous group is actually larger than the value consumed.
                 logging.debug('Branch 2.1 [REC]')
-                n_record = record[count:]
-                total += self.recurse(n_record, contiguous[1:])
-            if count < contiguous[0] and len(segments) > 1 and segments[1][0] == '?' and segments[1][1] + count > contiguous[0]:
+                if len(segments) > 1:
+                    if segments[1][0] == '.':
+                        logging.debug('Branch 2.1.1 [REC]')
+                        n_record = record[count:]
+                        return self.recurse(n_record, self.str_join(contiguous[1:]))
+                    if segments[1][0] == '?':
+                        logging.debug('Branch 2.1.2 [REC]')
+                        n_record = '.' + record[count+1:]
+                        return self.recurse(n_record, self.str_join(contiguous[1:]))
+                return 1
+
+            if count < contiguous[0]: #and len(segments) > 1 and segments[1][0] == '?':
                 logging.debug('Branch 2.2 [REC]')
-                n_record = record[contiguous[0]+1:]
-                total += self.recurse(n_record, contiguous[1:])
+                num_fseg = 1
+                pot_cont = count
+                while pot_cont < contiguous[0] and len(segments) > num_fseg and segments[num_fseg][0] != '.':
+                    # While future segments are alternating '?' and '#', turn the '?' into '#' until contig value is satisfied
+                    pot_cont += segments[num_fseg][1]
+                    num_fseg += 1
+
+                if pot_cont > count:
+                    n_record = ('#' * contiguous[0]) + record[contiguous[0]:]
+                    return self.recurse(n_record, self.str_join(contiguous))
+
+            if count > contiguous[0]:
+                logging.debug('Branch 2.3')
+                return 0
+
+            logging.debug('END')
 
         return total
 
@@ -136,12 +163,13 @@ class SpringRecords:
 
         valids = []
 
+        contiguous = self.str_unjoin(contiguous)
+
         num_unknown = record.count('?')
         segments = self.get_record_segments(record)
 
         test_record = ''
-        for i in range(2**num_unknown):
-            bin_val = format(i, f'0{num_unknown}b')
+        for bin_val in self.possible_combos(num_unknown):
             logging.debug('BIN_VAL: %s', bin_val)
 
             ridx = 0
@@ -151,7 +179,7 @@ class SpringRecords:
                     test_record += char * count
                 else:
                     logging.debug('BIN_VAL[%s:%s] = %s', ridx, (ridx+count), bin_val[ridx:ridx+count])
-                    test_record += bin_val[ridx:ridx+count].replace('0','.').replace('1','#')
+                    test_record += bin_val[ridx:ridx+count]
                     ridx += count
 
             if self.validate_record(test_record, contiguous):
@@ -162,31 +190,46 @@ class SpringRecords:
 
             test_record = ''
 
-        logging.info('Record: %s %s -> %s', record, contiguous, len(valids))
+        logging.debug('Record: %s %s -> %s', record, contiguous, len(valids))
         return len(valids)
 
 
-    def sum_possibles(self, use_func, mult=1):
+    @lru_cache
+    def possible_combos(self, str_len):
 
-        logging.info('Summing possibilities for %s records', len(self.records))
+        combos = []
+        for i in range(2**str_len):
+            bin_val = format(i, f'0{str_len}b').replace('0','.').replace('1','#')
+            combos.append(bin_val)
+
+        return combos
+
+
+    def sum_possibles(self, use_func, mult=1, max_records=0):
+
+        logging.debug('Summing possibilities for %s records', len(self.records))
 
         total = 0
 
         for ridx, record in enumerate(self.records):
 
-            logging.info(' --- Processing Record %s --- ', ridx)
+            logging.debug(' --- Processing Record %s --- ', ridx)
 
             record, contiguous = record
 
             record = '?'.join([record] * mult)
             contiguous = contiguous * mult
 
+            contiguous = self.str_join(contiguous)
+
             valids = use_func(record, contiguous)
-            logging.info('Total + %s', valids)
+            logging.debug('Total + %s', valids)
             total += valids
 
-            if ridx == 1:
-                break
+            if max_records > 0:
+                if (ridx + 1) == max_records:
+                    break
+
 
         return total
 
@@ -225,12 +268,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
-        poss_sum = sr.sum_possibles(sr.brute_force)
-        logging.info('[Part 1] Solution: %s', poss_sum)
+        start = time.time()
+        poss_sum = sr.sum_possibles(sr.recurse)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', poss_sum, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
-        poss_sum = sr.sum_possibles(sr.recurse, mult=5)
-        logging.info('[Part 2] Solution: %s', poss_sum)
+        start = time.time()
+        poss_sum = sr.recurse(sr.records[5][0], sr.str_join(sr.records[5][1]))
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', poss_sum, round(end - start, 4))
 

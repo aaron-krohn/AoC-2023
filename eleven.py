@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -187,14 +188,18 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         galaxies.expand(2)
         dist_sum = galaxies.sum_distances()
-        logging.info('[Part 1] Solution: %s', dist_sum)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', dist_sum, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         galaxies.expand(1000000)
         dist_sum = galaxies.sum_distances()
-        logging.info('[Part 2] Solution: %s', dist_sum)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', dist_sum, round(end - start, 4))
 

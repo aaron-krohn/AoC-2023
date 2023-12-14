@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -163,12 +164,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         parts_sum = schematic.sum_sym_parts()
-        logging.info('[Part 1] Parts Total: %s', parts_sum)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', parts_sum, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         gr_sum = schematic.sum_gear_ratios()
-        logging.info('[Part 2] Gear Ratios Sum: %s', gr_sum)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', gr_sum, round(end - start, 4))
 

@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -154,13 +155,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
-
+        start = time.time()
         sum_total = lines_total(lines)
-        logging.info('[Part 1] Sum total: %s' % sum_total)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', sum_total, round(end - start, 4))
 
     ###
     ## Part 2
     if not conf.p1 or conf.p2:
-
+        start = time.time()
         sum_total = lines_total(lines, alpha=True)
-        logging.info('[Part 2] Sum total: %s' % sum_total)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', sum_total, round(end - start, 4))
+

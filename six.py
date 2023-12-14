@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -99,12 +100,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         races_total = sim_races(race_data)
-        logging.info('[Part 1] Solution: %s', races_total)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', races_total, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         race_ways = run_race(race_data)
-        logging.info('[Part 2] Solution: %s', race_ways)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', race_ways, round(end - start, 4))
 

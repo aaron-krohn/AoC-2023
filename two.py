@@ -1,3 +1,4 @@
+import time
 import logging
 import argparse
 
@@ -152,12 +153,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         psummed = sum_possible(games, red=12, green=13, blue=14)
-        logging.info('[Part 1] Possible Sum: %s', psummed)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', psummed, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         mps = sum_min_power(games)
-        logging.info('[Part 2] Min Power Sum: %s', mps)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', mps, round(end - start, 4))
 

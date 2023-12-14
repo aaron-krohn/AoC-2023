@@ -1,6 +1,8 @@
+import time
 import logging
 import argparse
 
+from functools import lru_cache
 from pathlib import Path
 
 class Almanac:
@@ -66,6 +68,7 @@ class Almanac:
         return seed_path
 
 
+    @lru_cache
     def map_lookup(self, map_name, key):
         ##
         # seed-to-soil map:
@@ -148,12 +151,16 @@ if __name__ == '__main__':
     ##
     # Part 1
     if not conf.p2:
+        start = time.time()
         min_location = almanac.find_nearest_location()
-        logging.info('[Part 1] Min Location: %s', min_location)
+        end = time.time()
+        logging.info('[Part 1] Solution: %s in %s seconds', min_location, round(end - start, 4))
 
     ##
     # Part 2
     if not conf.p1 or conf.p2:
+        start = time.time()
         min_location = almanac.find_nearest_location(seed_ranges=True)
-        logging.info('[Part 2] Min Location: %s', min_location)
+        end = time.time()
+        logging.info('[Part 2] Solution: %s in %s seconds', min_location, round(end - start, 4))
 
