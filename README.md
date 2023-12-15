@@ -60,7 +60,7 @@ A brief review of why things went wrong. Not so much how they could get better b
 
 ### Problem 5.2
 
-I wrote really slow code and never got around to making it fast. I'm not even sure how to make it fast, so it took about 11.5 hours to brute force. Shame. Included `five.log` to show just how bad it was.
+I wrote really slow code and never got around to making it fast. I'm not even sure how to make it fast, so it took about 11.5 hours to brute force. Shame.
 
 ### Problem 8.2
 
@@ -129,6 +129,17 @@ $ python3.11 four.py
 ```
 $ python3.11 five.py
 2023-12-14 14:42:23,318 [INFO] [Part 1] Solution: XXXXXXXXX in 0.0004 seconds
+2023-12-14 14:42:23,318 [INFO] SEEDS: 1/10
+2023-12-14 15:22:50,439 [INFO] SEEDS: 2/10
+2023-12-14 15:52:25,116 [INFO] SEEDS: 3/10
+2023-12-14 15:56:12,165 [INFO] SEEDS: 4/10
+2023-12-14 16:50:59,152 [INFO] SEEDS: 5/10
+2023-12-14 18:36:27,651 [INFO] SEEDS: 6/10
+2023-12-14 22:00:38,387 [INFO] SEEDS: 7/10
+2023-12-14 22:06:37,765 [INFO] SEEDS: 8/10
+2023-12-14 22:32:21,035 [INFO] SEEDS: 9/10
+2023-12-15 00:26:39,786 [INFO] SEEDS: 10/10
+2023-12-15 00:58:47,976 [INFO] [Part 2] Solution: XXXXXXXX in 36984.6573 seconds
 ```
 
 ### Day 6
