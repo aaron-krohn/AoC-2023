@@ -218,3 +218,11 @@ $ python3.11 fifteen.py
 2023-12-15 00:43:37,518 [INFO] [Part 1] Solution: XXXXXX in 0.0109 seconds
 2023-12-15 00:43:37,545 [INFO] [Part 2] Solution: XXXXXX in 0.0262 seconds
 ```
+
+### Day 16
+
+```
+$ python3.11 sixteen.py
+2023-12-16 02:42:11,519 [INFO] [Part 1] Solution: XXXX in 2.8982 seconds
+2023-12-16 02:53:49,574 [INFO] [Part 2] Solution: XXXX in 698.055 seconds
+```
