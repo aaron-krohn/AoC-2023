@@ -37,6 +37,12 @@ https://adventofcode.com
 ```
       --------Part 1---------   --------Part 2---------
 Day       Time    Rank  Score       Time    Rank  Score
+ 21   14:18:40   16023      0          -       -      -
+ 20   22:07:23   15297      0          -       -      -
+ 19   00:38:25    2499      0          -       -      -
+ 18   02:14:03    5684      0          -       -      -
+ 17       >24h   15521      0          -       -      -
+ 16   01:54:05    5697      0   02:54:30    6443      0
  16   01:54:05    5697      0   02:54:30    6443      0
  15   00:11:08    3897      0   00:43:17    3684      0
  14   00:39:15    5515      0   10:24:39   14991      0
@@ -79,6 +85,8 @@ I decided to sleep like a person instead of staying up late to finish as fast as
 
 This one is... elusive, to say the least.
 
+The most difficult part, besides all of it, was the case where you could look ahead any number of segments: `#?#?#?#?#?#?#`. Any of those `?` could become a `#` to match what is basically an arbitrary size, so you have to "read ahead" for the appropriate number of segments.
+
 ### Problem 14
 
 Another one of my very slow algorithm. I think my weakness is trying to code the problem in terms of human abstraction and understanding rather than a purely numerical, fast way of doing it. My lack of classical computer science training is revealing my limitations.
@@ -87,11 +95,26 @@ I found it very interesting that both the sample dataset, a 10x10 ascii grid, an
 
 I went to bed after starting the final computation, assuming it would take much longer than the test data set, hence the low ranking and long time to completion despite being finished six hours earlier.
 
+### Problem 17.2
+
+Got it wrong after 13.37 hours. My answer was too high after getting both examples correct.
+
+### Everything after Day 16
+
+These problems are all more difficult than I can solve in a day, save for some of the Part-1s.
+
 ## Problem Compute Times
 
 I didn't think to start doing this until day 14, so forgive the timestamps, but I went through and ran them all again, unmodified.
 
 Answer are redacted because of AoC terms of use.
+
+```
+$ python3.11 seventeen.py --part-2
+2023-12-19 01:40:35,537 [INFO] [Part 2] Solution: 1205 in 48136.5499 seconds
+```
+
+Could probably add some of the optimizations mentioned on the [Djikstra wiki page](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). I dunno, maybe A-star is better? I had never tried either until this.
 
 ### Day 1
 
@@ -226,4 +249,39 @@ $ python3.11 fifteen.py
 $ python3.11 sixteen.py
 2023-12-16 02:42:11,519 [INFO] [Part 1] Solution: XXXX in 2.8982 seconds
 2023-12-16 02:53:49,574 [INFO] [Part 2] Solution: XXXX in 698.055 seconds
+```
+
+### Day 17
+
+```
+$ python3.11 seventeen.py --part-1
+2023-12-18 00:44:32,399 [INFO] [Part 1] Solution: XXXX in 3858.4447 seconds
+```
+
+### Day 18
+
+```
+$ python3.11 eighteen.py --part-1
+2023-12-21 14:33:34,587 [INFO] [Part 1] Solution: XXXXX in 18.2919 seconds
+```
+
+### Day 19
+
+```
+$ python3.11 nineteen.py --part-1
+2023-12-21 14:35:01,054 [INFO] [Part 1] Solution: XXXXXX in 0.0068 seconds
+```
+
+### Day 20
+
+```
+$ python3.11 twenty.py --part-1
+2023-12-21 14:35:45,230 [INFO] [Part 1] Solution: XXXXXXXXX in 0.1899 seconds
+```
+
+### Day 21
+
+```
+$ python3.11 twentyone.py --part-1
+2023-12-21 14:32:39,838 [INFO] [Part 1] Solution: XXXX in 0.3405 seconds
 ```
